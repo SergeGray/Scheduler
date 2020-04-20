@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Web application for scheduling appointments for services and public events. More info on the Wiki page.
 
-Things you may want to cover:
+Ruby version: 2.7.0
 
-* Ruby version
+Uses RSpec 4.0 for the test suite.
 
-* System dependencies
+Database structure:
 
-* Configuration
+* User. Attributes: email, password
 
-* Database creation
+* Schedule. Belongs to User. Attributes: name, description, user_id
 
-* Database initialization
+* Time Slot. Belongs to Schedule. Attributes: weekday, start, finish, schedule_id
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Appointment. Belongs to User, belongs to Schedule, belongs to Time Slot. Attributes: name, description, date, user_id, schedule_id, time_slot_id
