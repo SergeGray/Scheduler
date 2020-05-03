@@ -10,8 +10,9 @@ feature 'User can edit a schedule', %q{
     create(:schedule, title: 'My schedule', description: 'My own schedule')
   end
 
+  background { visit edit_schedule_path(schedule) }
+
   scenario 'User tries to edit a schedule' do
-    visit edit_schedule_path(schedule)
     fill_in 'Title', with: 'Cool schedule'
     fill_in 'Description', with: 'This schedule is cool'
     click_button 'Edit schedule'
@@ -21,5 +22,13 @@ feature 'User can edit a schedule', %q{
     expect(page).to_not have_content 'My own schedule'
     expect(page).to have_content 'Cool schedule'
     expect(page).to have_content 'This schedule is cool'
+  end
+
+  scenario 'User tries to edit a schedule with errors' do
+    fill_in 'Title', with: ''
+    click_button 'Edit schedule'
+
+    expect(page).to have_content '1 error(s) detected:'
+    expect(page).to have_content "Title can't be blank"
   end
 end

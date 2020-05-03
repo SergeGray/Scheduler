@@ -24,8 +24,11 @@ class SchedulesController < ApplicationController
   end
 
   def update
-    @schedule.update(schedule_params)
-    redirect_to @schedule, notice: 'Successfully updated'
+    if @schedule.update(schedule_params)
+      redirect_to @schedule, notice: 'Successfully updated'
+    else
+      render :edit
+    end
   end
 
   def destroy
