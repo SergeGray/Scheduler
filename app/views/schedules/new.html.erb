@@ -1,3 +1,12 @@
+<% if @schedule.errors.present? %>
+  <b><%= @schedule.errors.count %> error(s) detected: </b>
+  <ul>
+    <% @schedule.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <h1>Create new Schedule</h1>
 
 <%= render 'form', button_action: 'Create schedule' %>

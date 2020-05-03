@@ -60,14 +60,31 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'POST #create' do
-    it 'saves a new schedule to database' do
-      expect { post :create, params: { schedule: attributes_for(:schedule) } }
-        .to change(Schedule, :count).by 1
+    context 'with valid params' do
+      it 'saves the new schedule to database' do
+        expect { post :create, params: { schedule: attributes_for(:schedule) } }
+          .to change(Schedule, :count).by 1
+      end
+
+      it 'redirects to newly created schedule' do
+        post :create, params: { schedule: attributes_for(:schedule) }
+        expect(response).to redirect_to assigns(:schedule)
+      end
     end
 
-    it 'redirects to newly created schedule' do
-      post :create, params: { schedule: attributes_for(:schedule) }
-      expect(response).to redirect_to assigns(:schedule)
+    context 'with invalid params' do
+      it 'does not save the new schedule to database' do
+        expect { 
+          post :create, params: {
+            schedule: attributes_for(:schedule, :invalid)
+          }
+        }.to_not change(Schedule, :count)
+      end
+
+      it 're-renders the new template' do
+        post :create, params: { schedule: attributes_for(:schedule, :invalid) }
+        expect(response).to render_template :new
+      end
     end
   end
 

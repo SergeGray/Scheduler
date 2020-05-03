@@ -7,5 +7,10 @@ FactoryBot.define do
       title { 'Concert Hall rent' }
       description { 'Renting hours for the Concert Hall' }
     end
+
+    trait :invalid do
+      title { nil }
+      description { nil }
+    end
   end
 end

@@ -14,8 +14,13 @@ class SchedulesController < ApplicationController
   def edit; end
 
   def create
-    @schedule = Schedule.create(schedule_params)
-    redirect_to @schedule, notice: 'Successfully created'
+    @schedule = Schedule.new(schedule_params)
+
+    if @schedule.save
+      redirect_to @schedule, notice: 'Successfully created'
+    else
+      render :new
+    end
   end
 
   def update
