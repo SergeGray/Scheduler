@@ -3,6 +3,22 @@ require 'rails_helper'
 RSpec.describe SchedulesController, type: :controller do
   let(:schedule) { create(:schedule) }
 
+  describe 'GET #index' do
+    before { get :index }
+
+    it 'returns a success response' do
+      expect(response).to be_successful
+    end
+
+    it 'assigns the collection of all schedules to @schedules' do
+      expect(assigns(:schedules)).to eq Schedule.all
+    end
+
+    it 'renders index view' do
+      expect(response).to render_template :index
+    end
+  end
+
   describe 'GET #new' do
     before { get :new }
 
@@ -72,6 +88,25 @@ RSpec.describe SchedulesController, type: :controller do
         id: schedule, schedule: attributes_for(:schedule, :new)
       }
       expect(response).to redirect_to assigns(:schedule)
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:schedule) { create(:schedule) }
+
+    it 'assigns the requested schedule to @schedule' do
+      delete :destroy, params: { id: schedule }
+      expect(assigns(:schedule)).to eq schedule
+    end
+
+    it 'deletes the schedule' do
+      expect { delete :destroy, params: { id: schedule } }
+        .to change(Schedule, :count).by -1
+    end
+
+    it 'redirects to index' do
+      delete :destroy, params: { id: schedule }
+      expect(response).to redirect_to schedules_path
     end
   end
 end

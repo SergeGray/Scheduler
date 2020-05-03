@@ -1,5 +1,9 @@
 class SchedulesController < ApplicationController
-  before_action :get_schedule, only: %i[show edit update]
+  before_action :get_schedule, only: %i[show edit update destroy]
+
+  def index
+    @schedules = Schedule.all
+  end
 
   def new
     @schedule = Schedule.new
@@ -17,6 +21,11 @@ class SchedulesController < ApplicationController
   def update
     @schedule.update(schedule_params)
     redirect_to @schedule, notice: 'Successfully updated'
+  end
+
+  def destroy
+    @schedule.destroy
+    redirect_to schedules_path, notice: 'Successfully deleted'
   end
 
   private
