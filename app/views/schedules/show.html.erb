@@ -6,4 +6,14 @@
 <p>
   <%= @schedule.description %>
 </p>
+<table>
+  <% @time_slots.each do |time_slot| %>
+    <tr>
+      <td><%= time_slot.day %></td>
+      <td><%= extract_time(time_slot.start_time) %></td>
+      <td><%= extract_time(time_slot.end_time) %></td>
+    </tr>
+  <% end %>
+</table>
+
 <%= link_to 'Delete schedule', @schedule, method: :delete %>

@@ -9,7 +9,9 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.new
   end
 
-  def show; end
+  def show
+    @time_slots = @schedule.time_slots
+  end
 
   def edit; end
 

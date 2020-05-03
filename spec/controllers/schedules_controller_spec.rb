@@ -36,10 +36,16 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'GET #show' do
+    let!(:time_slots) { create_list(:time_slot, 2) }
+
     before { get :show, params: { id: schedule } }
 
     it 'assigns the requested schedule to @schedule' do
       expect(assigns(:schedule)).to eq schedule
+    end
+
+    it "assigns schedule's time slots to @time_slots" do
+      expect(assigns(:time_slots)).to eq schedule.time_slots
     end
 
     it 'renders show view' do
