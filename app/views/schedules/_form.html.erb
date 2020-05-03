@@ -1,3 +1,5 @@
+<%= render 'shared/errors', resource: @schedule %>
+
 <%= form_with model: @schedule, local: true do |f| %>
   <p>
     <%= f.label :title %>

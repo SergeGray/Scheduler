@@ -89,22 +89,42 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    it 'saves the changes to the schedule to database' do
-      expect {
+    context 'with valid params' do
+      it 'saves the changes to the schedule to database' do
+        expect {
+          patch :update, params: {
+            id: schedule, schedule: attributes_for(:schedule, :new)
+          }
+        }.to change { schedule.reload.title }
+          .to(attributes_for(:schedule, :new)[:title])
+          .and change(schedule, :description)
+          .to(attributes_for(:schedule, :new)[:description])
+      end
+
+      it 'redirects to the schedule' do
         patch :update, params: {
           id: schedule, schedule: attributes_for(:schedule, :new)
         }
-      }.to change { schedule.reload.title }
-        .to(attributes_for(:schedule, :new)[:title])
-        .and change(schedule, :description)
-        .to(attributes_for(:schedule, :new)[:description])
+        expect(response).to redirect_to assigns(:schedule)
+      end
     end
 
-    it 'redirects to the schedule' do
-      patch :update, params: {
-        id: schedule, schedule: attributes_for(:schedule, :new)
-      }
-      expect(response).to redirect_to assigns(:schedule)
+    context 'with invalid params' do
+      it 'does not save changes to the database' do
+        expect {
+          patch :update, params: {
+            id: schedule, schedule: attributes_for(:schedule, :invalid)
+          }
+        }.to_not change { schedule.reload.attributes }
+
+      end
+
+      it 're-renders the edit template' do
+        patch :update, params: {
+          id: schedule, schedule: attributes_for(:schedule, :invalid)
+        }
+        expect(response).to render_template :edit
+      end
     end
   end
 
