@@ -16,4 +16,6 @@
   <% end %>
 </table>
 
-<%= link_to 'Delete schedule', @schedule, method: :delete %>
+<%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>
+<%= link_to 'Delete schedule', @schedule, method: :delete %> |
+<%= link_to 'Back', schedule_path %>
