@@ -5,7 +5,6 @@ feature 'User can view a schedule', %q{
   As an authenticated user
   I want to be able to view schedules
 } do
-
   given!(:schedule) { create(:schedule) }
   given!(:schedule2) { create(:schedule, :new) }
 

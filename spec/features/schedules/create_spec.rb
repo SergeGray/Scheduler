@@ -5,7 +5,6 @@ feature 'User can create a schedule', %q{
   As an authenticated user
   I want to be able to create a schedule
 } do
-
   background { visit new_schedule_path }
 
   scenario 'User tries to create a schedule' do

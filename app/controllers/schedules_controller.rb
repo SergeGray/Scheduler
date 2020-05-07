@@ -10,7 +10,8 @@ class SchedulesController < ApplicationController
   end
 
   def show
-    @time_slots = @schedule.time_slots
+    @time_slot = @schedule.time_slots.new
+    @time_slots = @schedule.time_slots.filter(&:persisted?)
   end
 
   def edit; end

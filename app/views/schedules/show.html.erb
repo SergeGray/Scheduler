@@ -7,15 +7,14 @@
   <%= @schedule.description %>
 </p>
 <table>
-  <% @time_slots.each do |time_slot| %>
-    <tr>
-      <td><%= time_slot.day %></td>
-      <td><%= extract_time(time_slot.start_time) %></td>
-      <td><%= extract_time(time_slot.end_time) %></td>
-    </tr>
-  <% end %>
+  <%= render @time_slots %>
 </table>
+
+<p>
+  <%= link_to 'Add time slot' %>
+  <%= render 'time_slots/form', time_slot: @time_slot %>
+</p>
 
 <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>
 <%= link_to 'Delete schedule', @schedule, method: :delete %> |
-<%= link_to 'Back', schedule_path %>
+<%= link_to 'Back', schedules_path %>

@@ -48,6 +48,14 @@ RSpec.describe SchedulesController, type: :controller do
       expect(assigns(:time_slots)).to eq schedule.time_slots
     end
 
+    it 'assigns a new time slot to @time_slot' do
+      expect(assigns(:time_slot)).to be_a_new(TimeSlot)
+    end
+
+    it 'assigns @time_slot ti be a @schedule time_slot' do
+      expect(assigns(:time_slot).schedule).to eq schedule
+    end
+
     it 'renders show view' do
       expect(response).to render_template :show
     end
@@ -80,11 +88,11 @@ RSpec.describe SchedulesController, type: :controller do
 
     context 'with invalid params' do
       it 'does not save the new schedule to database' do
-        expect { 
+        expect do
           post :create, params: {
             schedule: attributes_for(:schedule, :invalid)
           }
-        }.to_not change(Schedule, :count)
+        end.to_not change(Schedule, :count)
       end
 
       it 're-renders the new template' do
@@ -97,11 +105,11 @@ RSpec.describe SchedulesController, type: :controller do
   describe 'PATCH #update' do
     context 'with valid params' do
       it 'saves the changes to the schedule to database' do
-        expect {
+        expect do
           patch :update, params: {
             id: schedule, schedule: attributes_for(:schedule, :new)
           }
-        }.to change { schedule.reload.title }
+        end.to change { schedule.reload.title }
           .to(attributes_for(:schedule, :new)[:title])
           .and change(schedule, :description)
           .to(attributes_for(:schedule, :new)[:description])
@@ -117,12 +125,11 @@ RSpec.describe SchedulesController, type: :controller do
 
     context 'with invalid params' do
       it 'does not save changes to the database' do
-        expect {
+        expect do
           patch :update, params: {
             id: schedule, schedule: attributes_for(:schedule, :invalid)
           }
-        }.to_not change { schedule.reload.attributes }
-
+        end.to_not change { schedule.reload.attributes }
       end
 
       it 're-renders the edit template' do
@@ -144,7 +151,7 @@ RSpec.describe SchedulesController, type: :controller do
 
     it 'deletes the schedule' do
       expect { delete :destroy, params: { id: schedule } }
-        .to change(Schedule, :count).by -1
+        .to change(Schedule, :count).by(-1)
     end
 
     it 'redirects to index' do

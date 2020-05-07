@@ -5,7 +5,6 @@ feature 'User can view time slots', %q{
   As an authenticated user
   I want to be able to view time slots
 } do
-
   given!(:schedule) { create(:schedule) }
   given!(:time_slots) { create_list(:time_slot, 2, schedule: schedule) }
 
