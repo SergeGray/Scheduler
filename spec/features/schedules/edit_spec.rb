@@ -5,7 +5,6 @@ feature 'User can edit a schedule', %q{
   As an authenticated user
   I want to be able to edit a schedule
 } do
-
   given(:schedule) do
     create(:schedule, title: 'My schedule', description: 'My own schedule')
   end

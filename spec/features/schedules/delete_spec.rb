@@ -5,7 +5,6 @@ feature 'User can delete a schedule', %q{
   As an authenticated user
   I want to be able to delete a schedule
 } do
-
   given!(:schedule) { create(:schedule) }
 
   scenario 'User tries to delete a schedule' do
