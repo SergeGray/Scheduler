@@ -6,13 +6,16 @@
 <p>
   <%= @schedule.description %>
 </p>
-<table>
+<table class="time_slots">
   <%= render @time_slots %>
 </table>
 
 <p>
   <%= link_to 'Add time slot' %>
-  <%= render 'time_slots/form', time_slot: @time_slot %>
+  <%= render 'time_slots/form',
+             model: [@schedule, @time_slot],
+             time_slot: @time_slot,
+             button_action: 'Create time slot' %>
 </p>
 
 <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>

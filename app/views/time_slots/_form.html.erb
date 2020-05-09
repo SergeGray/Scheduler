@@ -1,6 +1,6 @@
 <%= render 'shared/errors', resource: time_slot %>
 
-<%= form_with model: [@schedule, time_slot], local: true do |f| %>
+<%= form_with model: model, local: true do |f| %>
   <p>
     <%= f.label :day %>
     <%= f.select :day, day_of_week_select %>
@@ -17,6 +17,6 @@
   </p>
 
   <p>
-    <%= f.submit 'Create time slot' %>
+    <%= f.submit button_action %>
   </p>
 <% end %>

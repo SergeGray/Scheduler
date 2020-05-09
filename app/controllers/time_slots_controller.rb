@@ -5,6 +5,12 @@ class TimeSlotsController < ApplicationController
     redirect_to @time_slot.schedule, notice: 'Successfully created'
   end
 
+  def update
+    @time_slot = TimeSlot.find(params[:id])
+    @time_slot.update(time_slot_params)
+    redirect_to @time_slot.schedule, notice: 'Successfully updated'
+  end
+
   private
 
   def time_slot_params
