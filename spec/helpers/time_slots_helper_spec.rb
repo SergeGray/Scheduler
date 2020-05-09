@@ -7,6 +7,12 @@ RSpec.describe TimeSlotsHelper, type: :helper do
     end
   end
 
+  describe '#day_of_week' do
+    it 'returns the name of the day of the week by a number' do
+      expect(day_of_week(5)).to eq('Friday')
+    end
+  end
+
   describe '#day_of_week_select' do
     it 'returns options_for select for days of the week' do
       expect(day_of_week_select).to eq(

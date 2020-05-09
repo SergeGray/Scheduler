@@ -2,4 +2,9 @@
   <td><%= time_slot.day %></td>
   <td><%= extract_time(time_slot.start_time) %></td>
   <td><%= extract_time(time_slot.end_time) %></td>
+  <td><%= link_to 'Edit time slot' %></td>
+  <td><%= render 'time_slots/form',
+                 model: time_slot,
+                 time_slot: time_slot,
+                 button_action: 'Edit time slot' %></td>
 </tr>
