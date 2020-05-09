@@ -11,6 +11,9 @@ feature 'User can edit a time_slot', %q{
   scenario 'User tries to create a time slot' do
     visit schedule_path(schedule)
 
+    expect(page).to_not have_content '14:00'
+    expect(page).to_not have_content '15:30'
+
     click_link 'Edit time slot'
 
     within('.time_slots') do

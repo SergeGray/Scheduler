@@ -50,4 +50,23 @@ RSpec.describe TimeSlotsController, type: :controller do
       expect(response).to redirect_to time_slot.schedule
     end
   end
+
+  describe 'DELETE #destroy' do
+    let!(:time_slot) { create(:time_slot, schedule: schedule) }
+
+    it 'assigns the requested time slot to @time_slot' do
+      delete :destroy, params: { id: time_slot }
+      expect(assigns(:time_slot)).to eq time_slot
+    end
+
+    it 'deletes the time slot' do
+      expect { delete :destroy, params: { id: time_slot } }
+        .to change(TimeSlot, :count).by(-1)
+    end
+
+    it 'redirects to time slot schedule' do
+      delete :destroy, params: { id: time_slot }
+      expect(response).to redirect_to schedule_path(time_slot.schedule)
+    end
+  end
 end

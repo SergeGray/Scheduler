@@ -9,6 +9,8 @@ feature 'User can create a time_slot', %q{
 
   scenario 'User tries to create a time slot' do
     visit schedule_path(schedule)
+    expect(page).to_not have_content '18:00'
+    expect(page).to_not have_content '20:30'
 
     click_link 'Add time slot'
 
