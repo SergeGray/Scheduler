@@ -4,7 +4,7 @@ feature 'User can create a time_slot', %q{
   In order to manage time
   As an authenticated user
   I want to be able to create a time slot
-} do
+}, js: true do
   given!(:schedule) { create(:schedule) }
 
   background { visit schedule_path(schedule) }

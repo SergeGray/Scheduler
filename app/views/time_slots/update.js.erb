@@ -1,0 +1,8 @@
+$('.time-slot-errors')
+  .html('<%= j render 'shared/errors', resource: @time_slot %>');
+
+<% if @time_slot.errors.blank? %>
+  $('.time-slot-' + '<%= @time_slot.id %>')
+    .replaceWith('<%= j render @time_slot %>');
+  $('.notice').html('Successfully updated.');
+<% end %>

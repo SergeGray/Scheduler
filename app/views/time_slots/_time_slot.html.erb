@@ -1,4 +1,4 @@
-<tr>
+<%= content_tag :tr, class: "time-slot-#{time_slot.id}" do %>
   <td><%= time_slot.day %></td>
   <td><%= extract_time(time_slot.start_time) %></td>
   <td><%= extract_time(time_slot.end_time) %></td>
@@ -7,5 +7,8 @@
                  model: time_slot,
                  time_slot: time_slot,
                  button_action: 'Edit time slot' %></td>
-  <td><%= link_to 'Delete time slot', time_slot, method: :delete %></td>
-</tr>
+  <td><%= link_to 'Delete time slot',
+                  time_slot,
+                  method: :delete,
+                  remote: true %></td>
+<% end %>
