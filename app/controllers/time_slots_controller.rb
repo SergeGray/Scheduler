@@ -3,8 +3,14 @@ class TimeSlotsController < ApplicationController
 
   def create
     @schedule = Schedule.find(params[:schedule_id])
-    @time_slot = @schedule.time_slots.create(time_slot_params)
-    redirect_to @time_slot.schedule, notice: 'Successfully created'
+    @time_slot = TimeSlot.new(time_slot_params.merge(schedule: @schedule))
+    @time_slots = @schedule.time_slots
+
+    if @time_slot.save      
+      redirect_to @time_slot.schedule, notice: 'Successfully created'
+    else
+      render 'schedules/show', schedule: @schedule
+    end
   end
 
   def update

@@ -7,8 +7,9 @@ feature 'User can create a time_slot', %q{
 } do
   given!(:schedule) { create(:schedule) }
 
+  background { visit schedule_path(schedule) }
+
   scenario 'User tries to create a time slot' do
-    visit schedule_path(schedule)
     expect(page).to_not have_content '18:00'
     expect(page).to_not have_content '20:30'
 
@@ -25,5 +26,20 @@ feature 'User can create a time_slot', %q{
     expect(page).to have_content 'Monday'
     expect(page).to have_content '18:00'
     expect(page).to have_content '20:30'
+  end
+
+  scenario 'User tries to create a time slot with invalid parameters' do
+    click_link 'Add time slot'
+
+    select '22', from: 'time_slot_start_time_4i'
+    select '22', from: 'time_slot_start_time_5i'
+    select '11', from: 'time_slot_end_time_4i'
+    select '11', from: 'time_slot_end_time_5i'
+
+    click_button 'Create time slot'
+
+    expect(page).to have_content "End time can't be earlier than Start time"
+    expect(page).to_not have_content '22:22'
+    expect(page).to_not have_content '11:11'
   end
 end
