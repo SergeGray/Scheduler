@@ -5,26 +5,47 @@ RSpec.describe TimeSlotsController, type: :controller do
   let(:time_slot) { create(:time_slot) }
 
   describe 'POST #create' do
-    it 'assigns requested schedule to @schedule' do
-      post :create, params: {
-        schedule_id: schedule.id, time_slot: attributes_for(:time_slot)
-      }
-      expect(assigns(:schedule)).to eq schedule
-    end
-
-    it 'creates a new schedule time slot' do
-      expect do
+    context 'with valid params' do
+      it 'assigns requested schedule to @schedule' do
         post :create, params: {
           schedule_id: schedule.id, time_slot: attributes_for(:time_slot)
         }
-      end.to change(schedule.time_slots, :count).by 1
+        expect(assigns(:schedule)).to eq schedule
+      end
+
+      it 'creates a new schedule time slot' do
+        expect do
+          post :create, params: {
+            schedule_id: schedule.id, time_slot: attributes_for(:time_slot)
+          }
+        end.to change(schedule.time_slots, :count).by 1
+      end
+
+      it 'redirects to the schedule' do
+        post :create, params: {
+          schedule_id: schedule.id, time_slot: attributes_for(:time_slot)
+        }
+        expect(response).to redirect_to schedule
+      end
     end
 
-    it 'redirects to the schedule' do
-      post :create, params: {
-        schedule_id: schedule.id, time_slot: attributes_for(:time_slot)
-      }
-      expect(response).to redirect_to schedule
+    context 'with invalid params' do
+      it 'does not save the new time slot to database' do
+        expect do
+          post :create, params: {
+            schedule_id: schedule.id,
+            time_slot: attributes_for(:time_slot, :invalid)
+          }
+        end.to_not change(TimeSlot, :count)
+      end
+
+      it 're-renders the schedule template' do
+        post :create, params: {
+          schedule_id: schedule.id,
+          time_slot: attributes_for(:time_slot, :invalid)
+        }
+        expect(response).to render_template "schedules/show", schedule: schedule
+      end
     end
   end
 
