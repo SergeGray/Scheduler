@@ -1,6 +1,4 @@
-<%= render 'shared/errors', resource: time_slot %>
-
-<%= form_with model: model, local: true do |f| %>
+<%= form_with model: model, remote: true do |f| %>
   <p>
     <%= f.label :day %>
     <%= f.select :day, day_of_week_select %>

@@ -1,0 +1,7 @@
+$('.time-slot-errors')
+  .html('<%= j render 'shared/errors', resource: @time_slot %>');
+
+<% if @time_slot.persisted? %>
+  $('.time-slots').append('<%= j render @time_slot %>');
+  $('.notice').html('Successfully created.');
+<% end %>

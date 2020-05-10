@@ -6,7 +6,12 @@
 <p>
   <%= @schedule.description %>
 </p>
-<table class="time_slots">
+
+<div class="time-slot-errors">
+  <%= render 'shared/errors', resource: @time_slot %>
+</div>
+
+<table class="time-slots">
   <%= render @time_slots %>
 </table>
 
