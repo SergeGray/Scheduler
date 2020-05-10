@@ -4,6 +4,8 @@ RSpec.describe TimeSlot, type: :model do
   subject { build(:time_slot) }
   let(:time_slot) { create(:time_slot) }
 
+  it { should have_many :appointments }
+
   it { should belong_to :schedule }
 
   it { should validate_inclusion_of(:day).in_range(1..7) }
