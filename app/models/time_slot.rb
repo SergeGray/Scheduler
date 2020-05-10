@@ -1,6 +1,8 @@
 class TimeSlot < ApplicationRecord
   belongs_to :schedule
 
+  has_many :appointments
+
   validates :day, presence: true, inclusion: { in: 1..7 }
   validates :start_time, presence: true
   validates :end_time, presence: true

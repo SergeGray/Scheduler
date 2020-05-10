@@ -7,6 +7,9 @@ feature 'User can view time slots', %q{
 } do
   given!(:schedule) { create(:schedule) }
   given!(:time_slots) { create_list(:time_slot, 2, schedule: schedule) }
+  given!(:appointments) do
+    create_list(:appointment, 2, time_slot: time_slots.first)
+  end
 
   scenario 'User tries to view a list of time slots' do
     visit schedule_path(schedule)
@@ -15,6 +18,10 @@ feature 'User can view time slots', %q{
       expect(page).to have_content time_slot.day
       expect(page).to have_content time_slot.start_time.to_s(:time)
       expect(page).to have_content time_slot.end_time.to_s(:time)
+    end
+
+    appointments.each do |appointment|
+      expect(page).to have_content appointment.date
     end
   end
 end
