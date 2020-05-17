@@ -6,4 +6,8 @@
   <p><%= render 'appointments/form',
                  appointment: appointment,
                  button_action: 'Edit appointment' %></p>
+  <p><%= link_to 'Delete appointment',
+                  appointment,
+                  method: :delete,
+                  remote: true %></p>
 <% end %>
