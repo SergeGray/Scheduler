@@ -52,8 +52,12 @@ RSpec.describe SchedulesController, type: :controller do
       expect(assigns(:time_slot)).to be_a_new(TimeSlot)
     end
 
-    it 'assigns @time_slot ti be a @schedule time_slot' do
+    it 'assigns @time_slot to be a @schedule time_slot' do
       expect(assigns(:time_slot).schedule).to eq schedule
+    end
+
+    it 'assigns a new appointment to @appointment' do
+      expect(assigns(:appointment)).to be_a_new(Appointment)
     end
 
     it 'renders show view' do

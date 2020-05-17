@@ -4,6 +4,18 @@ RSpec.describe AppointmentsController, type: :controller do
   let(:time_slot) { create(:time_slot) }
   let(:appointment) { create(:appointment) }
 
+  describe 'GET #show' do
+    before { get :show, params: { id: appointment } }
+
+    it 'assigns the requested appointment to @appointment' do
+      expect(assigns(:appointment)).to eq appointment
+    end
+
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid params' do
       it 'assigns a new appointment to @appointment' do
