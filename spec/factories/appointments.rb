@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :appointment do
     title { 'Important meeting' }
     description { 'Everybody attend please' }
-    date { '2020-05-10' }
+    sequence(:date) { |n| (Time.zone.now + n.weeks).strftime('%F') }
     time_slot
 
     trait :new do
