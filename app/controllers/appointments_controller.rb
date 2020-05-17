@@ -1,14 +1,23 @@
 class AppointmentsController < ApplicationController
+  before_action :set_appointment, only: %i[update destroy]
+
   def create
     @appointment = Appointment.create(appointment_params)
   end
 
   def update
-    @appointment = Appointment.find(params[:id])
     @appointment.update(appointment_params)
   end
 
+  def destroy
+    @appointment.destroy
+  end
+
   private
+
+  def set_appointment
+    @appointment = Appointment.find(params[:id])
+  end
 
   def appointment_params
     params

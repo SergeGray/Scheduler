@@ -6,6 +6,15 @@ RSpec.describe AppointmentsController, type: :controller do
 
   describe 'POST #create' do
     context 'with valid params' do
+      it 'assigns a new appointment to @appointment' do
+        patch :update, params: {
+          id: appointment,
+          appointment: attributes_for(:appointment, :new),
+          format: :js
+        }
+        expect(assigns(:appointment)).to be_an(Appointment)
+      end
+
       it 'creates a new appointment' do
         expect do
           post :create, params: {
@@ -29,6 +38,15 @@ RSpec.describe AppointmentsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'with valid params' do
+      it 'assigns the requested appointment to @appointment' do
+        patch :update, params: {
+          id: appointment,
+          appointment: attributes_for(:appointment, :new),
+          format: :js
+        }
+        expect(assigns(:appointment)).to eq appointment
+      end
+
       it 'saves the changes to the appointment to database' do
         expect do
           patch :update, params: {
@@ -51,6 +69,25 @@ RSpec.describe AppointmentsController, type: :controller do
         }
         expect(response).to render_template :update
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:appointment) { create(:appointment) }
+
+    it 'assigns the requested appointment to @appointment' do
+      delete :destroy, params: { id: appointment, format: :js }
+      expect(assigns(:appointment)).to eq appointment
+    end
+
+    it 'deletes the appointment' do
+      expect { delete :destroy, params: { id: appointment, format: :js } }
+        .to change(Appointment, :count).by(-1)
+    end
+
+    it 'renders the destroy template' do
+      delete :destroy, params: { id: appointment, format: :js }
+      expect(response).to render_template :destroy
     end
   end
 end
