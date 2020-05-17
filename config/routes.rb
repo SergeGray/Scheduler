@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :time_slots, only: %i[create update destroy], shallow: true
   end
 
-  resources :appointments, only: :create
+  resources :appointments, only: %i[create update]
 
   root to: 'schedules#index'
 end

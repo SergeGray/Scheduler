@@ -2,4 +2,8 @@
   <p><%= appointment.date %></p>
   <p><%= appointment.title %></p>
   <p><%= appointment.description %></p>
+  <p><%= link_to 'Edit appointment' %></p>
+  <p><%= render 'appointments/form',
+                 appointment: appointment,
+                 button_action: 'Edit appointment' %></p>
 <% end %>
