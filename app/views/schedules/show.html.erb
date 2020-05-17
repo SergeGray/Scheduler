@@ -11,6 +11,10 @@
   <%= render 'shared/errors', resource: @time_slot %>
 </div>
 
+<div class="appointment-errors">
+  <%= render 'shared/errors', resource: @appointment %>
+</div>
+
 <table class="time-slots">
   <%= render @time_slots %>
 </table>
@@ -21,6 +25,11 @@
              model: [@schedule, @time_slot],
              time_slot: @time_slot,
              button_action: 'Create time slot' %>
+</p>
+
+<p>
+  <%= link_to 'Create appointment' %>
+  <%= render 'appointments/form' %>
 </p>
 
 <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>

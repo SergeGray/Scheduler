@@ -1,0 +1,8 @@
+$('.appointment-errors')
+  .html('<%= j render 'shared/errors', resource: @appointment %>');
+
+<% if @appointment.persisted? %>
+  $('.time-slot-' + '<%= @appointment.time_slot_id %>' + '-appointments')
+    .append('<%= j render @appointment %>');
+  $('.notice').html('Successfully created.');
+<% end %>
