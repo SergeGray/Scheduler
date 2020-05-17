@@ -27,5 +27,13 @@ feature 'User can create an appointment', %q{
     expect(page).to have_content '2020-12-13'
   end
 
-  scenario 'User tries to create an appointment with invalid parameters'
+  scenario 'User tries to create an appointment with invalid parameters' do
+    click_link 'Create appointment'
+    click_button 'Create appointment'
+
+    expect(page).to have_content '3 error(s) detected'
+    expect(page).to have_content 'Time slot must exist'
+    expect(page).to have_content "Title can't be blank"
+    expect(page).to have_content "Description can't be blank"
+  end
 end
