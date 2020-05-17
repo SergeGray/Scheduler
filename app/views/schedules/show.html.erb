@@ -29,7 +29,9 @@
 
 <p>
   <%= link_to 'Create appointment' %>
-  <%= render 'appointments/form' %>
+  <%= render 'appointments/form',
+             appointment: @appointment,
+             button_action: 'Create appointment' %>
 </p>
 
 <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>

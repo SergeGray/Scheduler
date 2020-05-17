@@ -68,9 +68,9 @@ RSpec.describe TimeSlotsController, type: :controller do
           }
         end.to change { time_slot.reload.day }.to(
           attributes_for(:time_slot, :new)[:day]
-        ).and change { time_slot.reload.start_time.to_s(:time) }.to(
+        ).and change { time_slot.start_time.to_s(:time) }.to(
           attributes_for(:time_slot, :new)[:start_time].to_s(:time)
-        ).and change { time_slot.reload.end_time.to_s(:time) }.to(
+        ).and change { time_slot.end_time.to_s(:time) }.to(
           attributes_for(:time_slot, :new)[:end_time].to_s(:time)
         )
       end

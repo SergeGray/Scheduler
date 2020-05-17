@@ -1,4 +1,4 @@
-<%= form_with model: @appointment, remote: true do |f| %>
+<%= form_with model: appointment, remote: true do |f| %>
   <p>
     <%= f.label :title %>
     <%= f.text_field :title %>
@@ -23,6 +23,6 @@
   </p>
 
   <p>
-    <%= f.submit 'Create appointment' %>
+    <%= f.submit button_action %>
   </p>
 <% end %>

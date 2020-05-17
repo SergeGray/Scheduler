@@ -1,0 +1,8 @@
+$('.appointment-errors')
+  .html('<%= j render 'shared/errors', resource: @appointment %>');
+
+<% if @appointment.errors.blank? %>
+  $('.appointment-' + '<%= @appointment.id %>')
+    .replaceWith('<%= j render @appointment %>');
+  $('.notice').html('Successfully updated.');
+<% end %>
