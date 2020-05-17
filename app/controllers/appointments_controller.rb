@@ -1,5 +1,7 @@
 class AppointmentsController < ApplicationController
-  before_action :set_appointment, only: %i[update destroy]
+  before_action :set_appointment, only: %i[show update destroy]
+
+  def show; end
 
   def create
     @appointment = Appointment.create(appointment_params)
