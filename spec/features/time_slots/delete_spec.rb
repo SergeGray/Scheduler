@@ -15,6 +15,9 @@ feature 'User can delete a time slot', %q{
     click_link 'Delete time slot'
 
     expect(page).to have_content 'Successfully deleted'
-    expect(page).to_not have_content time_slot.start_time.to_s(:time)
+
+    within('.time-slots') do
+      expect(page).to_not have_content time_slot.start_time.to_s(:time)
+    end
   end
 end

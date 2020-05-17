@@ -1,5 +1,5 @@
 class SchedulesController < ApplicationController
-  before_action :get_schedule, only: %i[show edit update destroy]
+  before_action :set_schedule, only: %i[show edit update destroy]
 
   def index
     @schedules = Schedule.all
@@ -10,6 +10,7 @@ class SchedulesController < ApplicationController
   end
 
   def show
+    @appointment = Appointment.new
     @time_slot = TimeSlot.new(schedule: @schedule)
     @time_slots = @schedule.time_slots
   end
@@ -45,7 +46,7 @@ class SchedulesController < ApplicationController
     params.require(:schedule).permit(:title, :description)
   end
 
-  def get_schedule
+  def set_schedule
     @schedule = Schedule.find(params[:id])
   end
 end
