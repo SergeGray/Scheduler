@@ -5,10 +5,12 @@ feature 'User can delete a time slot', %q{
   As an authenticated user
   I want to be able to delete a time slot
 }, js: true do
+  given!(:user) { create(:user) }
   given!(:schedule) { create(:schedule) }
   given!(:time_slot) { create(:time_slot, schedule: schedule) }
 
-  scenario 'User tries to delete a time_slot' do
+  scenario 'Authenticated user tries to delete a time_slot' do
+    sign_in(user)
     visit schedule_path(schedule)
 
     expect(page).to have_content time_slot.start_time.to_s(:time)
@@ -19,5 +21,11 @@ feature 'User can delete a time slot', %q{
     within('.time-slots') do
       expect(page).to_not have_content time_slot.start_time.to_s(:time)
     end
+  end
+
+  scenario 'Unauthenticated user tries to delete a time_slot' do
+    visit schedule_path(schedule)
+
+    expect(page).to_not have_link 'Delete time slot'
   end
 end

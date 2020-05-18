@@ -1,4 +1,5 @@
 class TimeSlotsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_time_slot, only: %i[update destroy]
 
   def create

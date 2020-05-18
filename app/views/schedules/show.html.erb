@@ -19,6 +19,7 @@
   <%= render @time_slots %>
 </table>
 
+<% if user_signed_in? %>
 <p>
   <%= link_to 'Add time slot' %>
   <%= render 'time_slots/form',
@@ -27,7 +28,6 @@
              button_action: 'Create time slot' %>
 </p>
 
-<% if user_signed_in? %>
   <p>
     <%= link_to 'Create appointment' %>
     <%= render 'appointments/form',
