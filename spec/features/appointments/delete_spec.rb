@@ -5,7 +5,7 @@ feature 'User can delete an appointment', %q{
   As an authenticated user
   I want to be able to delete an appointment
 }, js: true do
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:schedule) { create(:schedule) }
   given!(:time_slot) { create(:time_slot, schedule: schedule) }
   given!(:appointment) { create(:appointment, time_slot: time_slot) }

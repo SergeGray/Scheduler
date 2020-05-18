@@ -1,4 +1,5 @@
 class SchedulesController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_schedule, only: %i[show edit update destroy]
 
   def index

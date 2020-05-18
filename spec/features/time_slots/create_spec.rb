@@ -5,7 +5,7 @@ feature 'User can create a time_slot', %q{
   As an authenticated user
   I want to be able to create a time slot
 }, js: true do
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:schedule) { create(:schedule) }
 
   context 'Authenticated user' do

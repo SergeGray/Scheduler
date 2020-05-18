@@ -5,7 +5,7 @@ feature 'User can view an appointment', %q{
   As an authenticated user
   I want to be able to view an appointment
 } do
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:appointment) { create(:appointment) }
 
   scenario 'Authenticated user tries to view an appointment' do
