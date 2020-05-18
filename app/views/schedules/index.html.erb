@@ -4,4 +4,6 @@
   </p>
 <% end %>
 
-<%= link_to 'New schedule', new_schedule_path %>
+<% if user_signed_in? %>
+  <%= link_to 'New schedule', new_schedule_path %>
+<% end %>

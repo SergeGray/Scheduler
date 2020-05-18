@@ -5,7 +5,7 @@ feature 'User can delete a time slot', %q{
   As an authenticated user
   I want to be able to delete a time slot
 }, js: true do
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:schedule) { create(:schedule) }
   given!(:time_slot) { create(:time_slot, schedule: schedule) }
 

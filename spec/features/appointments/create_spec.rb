@@ -5,7 +5,7 @@ feature 'User can create an appointment', %q{
   As an authenticated user
   I want to be able to create an appointment
 }, js: true do
-  given!(:user) { create(:user) }
+  given(:user) { create(:user) }
   given!(:schedule) { create(:schedule) }
   given!(:time_slot) { create(:time_slot, day: 0, schedule: schedule) }
 
