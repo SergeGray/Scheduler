@@ -27,12 +27,14 @@
              button_action: 'Create time slot' %>
 </p>
 
-<p>
-  <%= link_to 'Create appointment' %>
-  <%= render 'appointments/form',
-             appointment: @appointment,
-             button_action: 'Create appointment' %>
-</p>
+<% if user_signed_in? %>
+  <p>
+    <%= link_to 'Create appointment' %>
+    <%= render 'appointments/form',
+               appointment: @appointment,
+               button_action: 'Create appointment' %>
+  </p>
+<% end %>
 
 <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>
 <%= link_to 'Delete schedule', @schedule, method: :delete %> |
