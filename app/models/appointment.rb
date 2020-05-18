@@ -8,6 +8,7 @@ class Appointment < ApplicationRecord
   private
 
   def validate_time_slot_week_day
+    # byebug
     return unless time_slot && date
 
     unless date.wday == time_slot.day
