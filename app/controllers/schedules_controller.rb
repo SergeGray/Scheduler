@@ -7,7 +7,7 @@ class SchedulesController < ApplicationController
   end
 
   def new
-    @schedule = Schedule.new
+    @schedule = current_user.schedules.new
   end
 
   def show
@@ -19,7 +19,7 @@ class SchedulesController < ApplicationController
   def edit; end
 
   def create
-    @schedule = Schedule.new(schedule_params)
+    @schedule = current_user.schedules.new(schedule_params)
 
     if @schedule.save
       redirect_to @schedule, notice: 'Successfully created'
