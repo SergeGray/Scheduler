@@ -35,6 +35,10 @@ RSpec.describe SchedulesController, type: :controller do
         expect(assigns(:schedule)).to be_a_new Schedule
       end
 
+      it 'assigns a new schedule to be a user schedule' do
+        expect(assigns(:schedule).user).to eq user
+      end
+
       it 'renders new view' do
         expect(response).to render_template :new
       end
@@ -105,10 +109,10 @@ RSpec.describe SchedulesController, type: :controller do
       before { login(user) }
 
       context 'with valid params' do
-        it 'saves the new schedule to database' do
+        it 'saves the new user schedule to database' do
           expect do
             post :create, params: { schedule: attributes_for(:schedule) }
-          end.to change(Schedule, :count).by 1
+          end.to change(user.schedules, :count).by 1
         end
 
         it 'redirects to newly created schedule' do
