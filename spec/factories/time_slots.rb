@@ -2,8 +2,8 @@ FactoryBot.define do
   factory :time_slot do
     schedule
     day { Time.zone.now.wday }
-    sequence(:start_time) { |n| Time.zone.now.beginning_of_day + n.hours }
-    sequence(:end_time) { |n| Time.zone.now.beginning_of_day + (n + 1).hours }
+    sequence(:start_time) { |n| Time.zone.now.beginning_of_day + n.minutes }
+    sequence(:end_time) { |n| Time.zone.now.beginning_of_day + (n + 1).minutes }
 
     trait :new do
       day { 5 }

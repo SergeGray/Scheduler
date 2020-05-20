@@ -4,6 +4,7 @@ FactoryBot.define do
     description { 'Everybody attend please' }
     sequence(:date) { |n| (Time.zone.now + n.weeks).strftime('%F') }
     time_slot
+    user
 
     trait :new do
       title { 'Not an important meeting' }
