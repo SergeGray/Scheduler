@@ -5,7 +5,7 @@ class AppointmentsController < ApplicationController
   def show; end
 
   def create
-    @appointment = Appointment.create(appointment_params)
+    @appointment = current_user.appointments.create(appointment_params)
   end
 
   def update

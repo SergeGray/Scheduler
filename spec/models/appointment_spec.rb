@@ -8,6 +8,7 @@ RSpec.describe Appointment, type: :model do
   end
 
   it { should belong_to(:time_slot) }
+  it { should belong_to(:user) }
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:description) }

@@ -43,7 +43,7 @@ RSpec.describe AppointmentsController, type: :controller do
           expect(assigns(:appointment)).to be_an(Appointment)
         end
 
-        it 'creates a new appointment' do
+        it 'creates a new user appointment' do
           expect do
             post :create, params: {
               appointment: attributes_for(
@@ -51,7 +51,7 @@ RSpec.describe AppointmentsController, type: :controller do
               ),
               format: :js
             }
-          end.to change(Appointment, :count).by 1
+          end.to change(user.appointments, :count).by 1
         end
 
         it 'renders the create template' do

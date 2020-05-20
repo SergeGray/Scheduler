@@ -1,5 +1,6 @@
 class Appointment < ApplicationRecord
   belongs_to :time_slot
+  belongs_to :user
 
   validates :title, :description, :date, presence: true
   validates :date, uniqueness: { scope: :time_slot_id }
