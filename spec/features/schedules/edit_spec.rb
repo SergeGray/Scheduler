@@ -2,15 +2,15 @@ require 'rails_helper'
 
 feature 'User can edit a schedule', %q{
   In order to be able to change wrong or outdated information
-  As an authenticated user
-  I want to be able to edit a schedule
+  As an owner of a schedule
+  I want to be able to edit that schedule
 } do
   given(:user) { create(:user) }
-  given(:schedule) do
-    create(:schedule, title: 'My schedule', description: 'My own schedule')
-  end
+  given(:schedule) { create(:schedule) }
 
-  context 'Authenticated user' do
+  context 'Schedule owner' do
+    given(:schedule) { create(:schedule, user: user) }
+
     background do
       sign_in(user)
       visit schedule_path(schedule)
@@ -23,8 +23,8 @@ feature 'User can edit a schedule', %q{
       click_button 'Edit schedule'
 
       expect(page).to have_content 'Successfully updated'
-      expect(page).to_not have_content 'My schedule'
-      expect(page).to_not have_content 'My own schedule'
+      expect(page).to_not have_content schedule.title
+      expect(page).to_not have_content schedule.description
       expect(page).to have_content 'Cool schedule'
       expect(page).to have_content 'This schedule is cool'
     end
@@ -36,6 +36,12 @@ feature 'User can edit a schedule', %q{
       expect(page).to have_content '1 error(s) detected:'
       expect(page).to have_content "Title can't be blank"
     end
+  end
+
+  scenario "Authenticated user tries to edit someone else's schedule" do
+    sign_in(user)
+    visit schedule_path(schedule)
+    expect(page).to_not have_link 'Edit schedule'
   end
 
   scenario 'Unauthenticated user tries to edit a schedule' do
