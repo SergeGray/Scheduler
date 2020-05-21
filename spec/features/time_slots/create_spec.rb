@@ -6,11 +6,12 @@ feature 'User can create a time_slot', %q{
   I want to be able to create a time slot
 }, js: true do
   given(:user) { create(:user) }
-  given!(:schedule) { create(:schedule) }
+  given(:owner) { create(:user) }
+  given!(:schedule) { create(:schedule, user: owner) }
 
-  context 'Authenticated user' do
+  context 'Schedule owner' do
     background do
-      sign_in(user)
+      sign_in(owner)
       visit schedule_path(schedule)
     end
 
@@ -47,6 +48,14 @@ feature 'User can create a time_slot', %q{
       expect(page).to_not have_content '22:22'
       expect(page).to_not have_content '11:11'
     end
+  end
+
+  scenario 'Authenticate user tries to create a time slot '\
+           "on someone else's schedule" do
+    sign_in(user)
+    visit schedule_path(schedule)
+
+    expect(page).to_not have_link 'Add time slot'
   end
 
   scenario 'Unauthenticated user tries to create a time slot' do

@@ -6,7 +6,9 @@ RSpec.describe TimeSlotsController, type: :controller do
   let(:time_slot) { create(:time_slot, schedule: schedule) }
 
   describe 'POST #create' do
-    context 'authenticated user' do
+    context 'schedule owner' do
+      let!(:schedule) { create(:schedule, user: user) }
+      
       before { login(user) }
 
       context 'with valid params' do
@@ -61,7 +63,30 @@ RSpec.describe TimeSlotsController, type: :controller do
       end
     end
 
-    context 'Unauthenticated user' do
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not create a time slot' do
+        expect do
+          post :create, params: {
+            schedule_id: schedule.id,
+            time_slot: attributes_for(:time_slot),
+            format: :js
+          }
+        end.to_not change(TimeSlot, :count)
+      end
+
+      it 'redirects to root' do
+        post :create, params: {
+          schedule_id: schedule.id,
+          time_slot: attributes_for(:time_slot),
+          format: :js
+        }
+        expect(response).to redirect_to root_path
+      end
+    end
+
+    context 'unauthenticated user' do
       it 'does not create a time slot' do
         expect do
           post :create, params: {

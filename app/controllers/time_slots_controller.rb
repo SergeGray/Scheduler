@@ -5,6 +5,7 @@ class TimeSlotsController < ApplicationController
   def create
     @schedule = Schedule.find(params[:schedule_id])
     @time_slot = @schedule.time_slots.new(time_slot_params)
+    authorize @time_slot
 
     @time_slot.save
   end
