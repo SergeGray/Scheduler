@@ -250,7 +250,9 @@ RSpec.describe SchedulesController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:schedule) { create(:schedule) }
 
-    context 'authenticated user' do
+    context 'schedule owner' do
+      let!(:schedule) { create(:schedule, user: user) }
+
       before { login(user) }
 
       it 'assigns the requested schedule to @schedule' do
@@ -266,6 +268,20 @@ RSpec.describe SchedulesController, type: :controller do
       it 'redirects to index' do
         delete :destroy, params: { id: schedule }
         expect(response).to redirect_to schedules_path
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not delete the schedule' do
+        expect { delete :destroy, params: { id: schedule } }
+          .to_not change(Schedule, :count)
+      end
+
+      it 'redirects to root' do
+        delete :destroy, params: { id: schedule }
+        expect(response).to redirect_to root_path
       end
     end
 

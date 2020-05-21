@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
   end
 
   def edit
-    authorize @schedule
+    authorize @schedule, :update?
   end
 
   def create
@@ -40,6 +40,7 @@ class SchedulesController < ApplicationController
   end
 
   def destroy
+    authorize @schedule
     @schedule.destroy
     redirect_to schedules_path, notice: 'Successfully deleted'
   end

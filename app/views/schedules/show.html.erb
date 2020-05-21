@@ -37,6 +37,8 @@
   <% if policy(@schedule).update? %>
     <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %> |
   <% end %>
-  <%= link_to 'Delete schedule', @schedule, method: :delete %> |
+  <% if policy(@schedule).destroy? %>
+    <%= link_to 'Delete schedule', @schedule, method: :delete %> |
+  <% end %>
 <% end %>
 <%= link_to 'Back', schedules_path %>
