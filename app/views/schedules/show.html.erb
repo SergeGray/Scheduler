@@ -19,26 +19,32 @@
   <%= render @time_slots %>
 </table>
 
-<% if user_signed_in? %>
+<% if policy(@time_slot).create? %>
 <p>
+
   <%= link_to 'Add time slot' %>
   <%= render 'time_slots/form',
              model: [@schedule, @time_slot],
              time_slot: @time_slot,
              button_action: 'Create time slot' %>
 </p>
+<% end %>
 
+<% if user_signed_in? %>
   <p>
     <%= link_to 'Create appointment' %>
     <%= render 'appointments/form',
                appointment: @appointment,
                button_action: 'Create appointment' %>
   </p>
-  <% if policy(@schedule).update? %>
-    <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %> |
-  <% end %>
-  <% if policy(@schedule).destroy? %>
-    <%= link_to 'Delete schedule', @schedule, method: :delete %> |
-  <% end %>
 <% end %>
+
+<% if policy(@schedule).update? %>
+  <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %> |
+<% end %>
+
+<% if policy(@schedule).destroy? %>
+  <%= link_to 'Delete schedule', @schedule, method: :delete %> |
+<% end %>
+
 <%= link_to 'Back', schedules_path %>

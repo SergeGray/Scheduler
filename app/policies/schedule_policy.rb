@@ -17,6 +17,6 @@ class SchedulePolicy
   private
 
   def owns?
-    user.id == schedule.user_id
+    user&.id == schedule.user_id
   end
 end
