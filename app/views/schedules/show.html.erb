@@ -34,8 +34,9 @@
                appointment: @appointment,
                button_action: 'Create appointment' %>
   </p>
-
-  <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %>
+  <% if policy(@schedule).update? %>
+    <%= link_to 'Edit schedule', edit_schedule_path(@schedule) %> |
+  <% end %>
   <%= link_to 'Delete schedule', @schedule, method: :delete %> |
 <% end %>
 <%= link_to 'Back', schedules_path %>

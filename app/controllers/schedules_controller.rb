@@ -16,7 +16,9 @@ class SchedulesController < ApplicationController
     @time_slots = @schedule.time_slots
   end
 
-  def edit; end
+  def edit
+    authorize @schedule
+  end
 
   def create
     @schedule = current_user.schedules.new(schedule_params)
@@ -29,6 +31,7 @@ class SchedulesController < ApplicationController
   end
 
   def update
+    authorize @schedule
     if @schedule.update(schedule_params)
       redirect_to @schedule, notice: 'Successfully updated'
     else

@@ -82,7 +82,9 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'GET #edit' do
-    context 'Authenticated user' do
+    context 'Schedule owner' do
+      let(:schedule) { create(:schedule, user: user) }
+
       before do
         login(user)
         get :edit, params: { id: schedule }
@@ -94,6 +96,15 @@ RSpec.describe SchedulesController, type: :controller do
 
       it 'renders edit view' do
         expect(response).to render_template :edit
+      end
+    end
+
+    context 'Authenticated user' do
+      before { login(user) }
+
+      it 'redirects to root' do
+        get :edit, params: { id: schedule }
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -155,7 +166,9 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'authenticated user' do
+    context 'schedule owner' do
+      let(:schedule) { create(:schedule, user: user) }
+
       before { login(user) }
 
       context 'with valid params' do
@@ -193,6 +206,25 @@ RSpec.describe SchedulesController, type: :controller do
           }
           expect(response).to render_template :edit
         end
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not change the schedule' do
+        expect do
+          patch :update, params: {
+            id: schedule, schedule: attributes_for(:schedule, :new)
+          }
+        end.to_not change { schedule.reload.attributes }
+      end
+
+      it 'redirects to root path' do
+        patch :update, params: {
+          id: schedule, schedule: attributes_for(:schedule, :new)
+        }
+        expect(response).to redirect_to root_path
       end
     end
 
