@@ -6,11 +6,11 @@ class SchedulePolicy
     @schedule = schedule
   end
 
-  def edit?
+  def update?
     owns?
   end
 
-  def update?
+  def destroy?
     owns?
   end
 
