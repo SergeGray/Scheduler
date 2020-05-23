@@ -110,7 +110,9 @@ RSpec.describe TimeSlotsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'authenticated user' do
+    context 'schedule owner' do
+      let!(:schedule) { create(:schedule, user: user) }
+
       before { login(user) }
 
       context 'with valid params' do
@@ -159,6 +161,29 @@ RSpec.describe TimeSlotsController, type: :controller do
           }
           expect(response).to render_template :update
         end
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not change the time slot' do
+        expect do
+          patch :update, params: {
+            id: time_slot,
+            time_slot: attributes_for(:time_slot, :new),
+            format: :js
+          }
+        end.to_not change { time_slot.reload.attributes }
+      end
+
+      it 'redirects to root' do
+        patch :update, params: {
+          id: time_slot,
+          time_slot: attributes_for(:time_slot, :new),
+          format: :js
+        }
+        expect(response).to redirect_to root_path
       end
     end
 

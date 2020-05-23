@@ -6,13 +6,12 @@ feature 'User can edit a schedule', %q{
   I want to be able to edit that schedule
 } do
   given(:user) { create(:user) }
-  given(:schedule) { create(:schedule) }
+  given(:owner) { create(:user) }
+  given(:schedule) { create(:schedule, user: owner) }
 
   context 'Schedule owner' do
-    given(:schedule) { create(:schedule, user: user) }
-
     background do
-      sign_in(user)
+      sign_in(owner)
       visit schedule_path(schedule)
       click_link 'Edit schedule'
     end

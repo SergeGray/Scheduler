@@ -5,12 +5,14 @@
       <%= render time_slot.appointments %>
     <% end %>
   </td>
-  <% if user_signed_in? %>
+  <% if policy(time_slot).update? %>
     <td><%= link_to 'Edit time slot' %></td>
     <td><%= render 'time_slots/form',
                    model: time_slot,
                    time_slot: time_slot,
                    button_action: 'Edit time slot' %></td>
+  <% end %>
+  <% if user_signed_in? %>
     <td><%= link_to 'Delete time slot',
                     time_slot,
                     method: :delete,
