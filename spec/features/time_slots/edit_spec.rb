@@ -6,12 +6,13 @@ feature 'User can edit a time_slot', %q{
   I want to be able to edit a time slot
 }, js: true do
   given(:user) { create(:user) }
-  given!(:schedule) { create(:schedule) }
+  given(:owner) { create(:user) }
+  given!(:schedule) { create(:schedule, user: owner) }
   given!(:time_slot) { create(:time_slot, schedule: schedule) }
 
-  context 'Authenticated user' do
+  context 'Schedule owner' do
     background do
-      sign_in(user)
+      sign_in(owner)
       visit schedule_path(schedule)
     end
 
@@ -51,6 +52,14 @@ feature 'User can edit a time_slot', %q{
       expect(page).to_not have_content '15:55'
       expect(page).to_not have_content '11:11'
     end
+  end
+
+  scenario "Authenticated user tries to edit a time slot "\
+           "on someone else's schedule" do
+    sign_in(user)
+    visit schedule_path(schedule)
+
+    expect(page).to_not have_link 'Edit time slot'
   end
 
   scenario 'Unauthenticated user tries to edit a time slot' do

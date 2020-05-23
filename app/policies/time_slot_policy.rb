@@ -10,6 +10,10 @@ class TimeSlotPolicy
     owns_schedule?
   end
 
+  def update?
+    owns_schedule?
+  end
+
   private
 
   def owns_schedule?

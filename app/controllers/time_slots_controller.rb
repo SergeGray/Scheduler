@@ -11,6 +11,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def update
+    authorize @time_slot
     @time_slot.update(time_slot_params)
   end
 
