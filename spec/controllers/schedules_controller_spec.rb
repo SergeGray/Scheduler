@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe SchedulesController, type: :controller do
   let(:user) { create(:user) }
-  let(:schedule) { create(:schedule) }
+  let(:owner) { create(:user) }
+  let(:schedule) { create(:schedule, user: owner) }
 
   describe 'GET #index' do
     before { get :index }
@@ -83,10 +84,8 @@ RSpec.describe SchedulesController, type: :controller do
 
   describe 'GET #edit' do
     context 'Schedule owner' do
-      let(:schedule) { create(:schedule, user: user) }
-
       before do
-        login(user)
+        login(owner)
         get :edit, params: { id: schedule }
       end
 
@@ -167,9 +166,7 @@ RSpec.describe SchedulesController, type: :controller do
 
   describe 'PATCH #update' do
     context 'schedule owner' do
-      let(:schedule) { create(:schedule, user: user) }
-
-      before { login(user) }
+      before { login(owner) }
 
       context 'with valid params' do
         it 'saves the changes to the schedule to database' do
@@ -248,12 +245,10 @@ RSpec.describe SchedulesController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:schedule) { create(:schedule) }
+    let!(:schedule) { create(:schedule, user: owner) }
 
     context 'schedule owner' do
-      let!(:schedule) { create(:schedule, user: user) }
-
-      before { login(user) }
+      before { login(owner) }
 
       it 'assigns the requested schedule to @schedule' do
         delete :destroy, params: { id: schedule }
