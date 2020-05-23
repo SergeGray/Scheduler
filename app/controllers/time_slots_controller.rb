@@ -16,6 +16,7 @@ class TimeSlotsController < ApplicationController
   end
 
   def destroy
+    authorize @time_slot
     @time_slot.destroy
   end
 

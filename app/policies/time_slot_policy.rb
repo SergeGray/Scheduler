@@ -14,6 +14,10 @@ class TimeSlotPolicy
     owns_schedule?
   end
 
+  def destroy?
+    owns_schedule?
+  end
+
   private
 
   def owns_schedule?
