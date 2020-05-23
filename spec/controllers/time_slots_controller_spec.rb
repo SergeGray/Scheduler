@@ -2,14 +2,13 @@ require 'rails_helper'
 
 RSpec.describe TimeSlotsController, type: :controller do
   let(:user) { create(:user) }
-  let!(:schedule) { create(:schedule) }
+  let(:owner) { create(:user) }
+  let!(:schedule) { create(:schedule, user: owner) }
   let(:time_slot) { create(:time_slot, schedule: schedule) }
 
   describe 'POST #create' do
     context 'schedule owner' do
-      let!(:schedule) { create(:schedule, user: user) }
-      
-      before { login(user) }
+      before { login(owner) }
 
       context 'with valid params' do
         it 'assigns requested schedule to @schedule' do
@@ -111,9 +110,7 @@ RSpec.describe TimeSlotsController, type: :controller do
 
   describe 'PATCH #update' do
     context 'schedule owner' do
-      let!(:schedule) { create(:schedule, user: user) }
-
-      before { login(user) }
+      before { login(owner) }
 
       context 'with valid params' do
         it 'saves the changes to the time slot to database' do
@@ -213,8 +210,8 @@ RSpec.describe TimeSlotsController, type: :controller do
   describe 'DELETE #destroy' do
     let!(:time_slot) { create(:time_slot, schedule: schedule) }
 
-    context 'authenticated user' do
-      before { login(user) }
+    context 'schedule owner' do
+      before { login(owner) }
 
       it 'assigns the requested time slot to @time_slot' do
         delete :destroy, params: { id: time_slot, format: :js }
@@ -229,6 +226,20 @@ RSpec.describe TimeSlotsController, type: :controller do
       it 'renders the destroy template' do
         delete :destroy, params: { id: time_slot, format: :js }
         expect(response).to render_template :destroy
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not delete the time slot' do
+        expect { delete :destroy, params: { id: time_slot, format: :js } }
+          .to_not change(TimeSlot, :count)
+      end
+
+      it 'redirects to root' do
+        delete :destroy, params: { id: time_slot, format: :js }
+        expect(response).to redirect_to root_path
       end
     end
 

@@ -12,7 +12,7 @@
                    time_slot: time_slot,
                    button_action: 'Edit time slot' %></td>
   <% end %>
-  <% if user_signed_in? %>
+  <% if policy(time_slot).destroy? %>
     <td><%= link_to 'Delete time slot',
                     time_slot,
                     method: :delete,
