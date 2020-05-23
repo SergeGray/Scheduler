@@ -9,6 +9,7 @@ class AppointmentsController < ApplicationController
   end
 
   def update
+    authorize @appointment
     @appointment.update(appointment_params)
   end
 
