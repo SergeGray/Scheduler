@@ -2,8 +2,13 @@ require 'rails_helper'
 
 RSpec.describe AppointmentsController, type: :controller do
   let(:user) { create(:user) }
-  let(:time_slot) { create(:time_slot) }
-  let(:appointment) { create(:appointment) }
+  let(:schedule_owner) { create(:user) }
+  let(:appointment_owner) { create(:user) }
+  let(:schedule) { create(:schedule, user: schedule_owner) }
+  let(:time_slot) { create(:time_slot, schedule: schedule) }
+  let(:appointment) do
+    create(:appointment, time_slot: time_slot, user: appointment_owner)
+  end
 
   describe 'GET #show' do
     context 'authenticated user' do
@@ -92,8 +97,8 @@ RSpec.describe AppointmentsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    context 'authenticated user' do
-      before { login(user) }
+    context 'Schedule owner' do
+      before { login(schedule_owner) }
 
       context 'with valid params' do
         it 'assigns the requested appointment to @appointment' do
@@ -127,6 +132,67 @@ RSpec.describe AppointmentsController, type: :controller do
           }
           expect(response).to render_template :update
         end
+      end
+    end
+
+    context 'Appointment owner' do
+      before { login(appointment_owner) }
+
+      context 'with valid params' do
+        it 'assigns the requested appointment to @appointment' do
+          patch :update, params: {
+            id: appointment,
+            appointment: attributes_for(:appointment, :new),
+            format: :js
+          }
+          expect(assigns(:appointment)).to eq appointment
+        end
+
+        it 'saves the changes to the appointment to database' do
+          expect do
+            patch :update, params: {
+              id: appointment,
+              appointment: attributes_for(:appointment, :new),
+              format: :js
+            }
+          end.to change { appointment.reload.title }.to(
+            attributes_for(:appointment, :new)[:title]
+          ).and change { appointment.description }.to(
+            attributes_for(:appointment, :new)[:description]
+          )
+        end
+
+        it 'renders the update template' do
+          patch :update, params: {
+            id: appointment,
+            appointment: attributes_for(:appointment, :new),
+            format: :js
+          }
+          expect(response).to render_template :update
+        end
+      end
+    end
+
+    context 'Authenticated user' do
+      before { login(user) }
+
+      it "doesn't do any changes to the appointment" do
+        expect do
+          patch :update, params: {
+            id: appointment,
+            appointment: attributes_for(:appointment, :new),
+            format: :js
+          }
+        end.to_not change { appointment.reload.attributes }
+      end
+
+      it 'redirects to root' do
+        patch :update, params: {
+          id: appointment,
+          appointment: attributes_for(:appointment, :new),
+          format: :js
+        }
+        expect(response).to redirect_to root_path
       end
     end
 
