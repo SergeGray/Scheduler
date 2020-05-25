@@ -8,9 +8,11 @@ class SchedulesController < ApplicationController
 
   def new
     @schedule = current_user.schedules.new
+    authorize @schedule, :create?
   end
 
   def show
+    authorize @schedule
     @appointment = Appointment.new
     @time_slot = TimeSlot.new(schedule: @schedule)
     @time_slots = @schedule.time_slots
@@ -22,6 +24,7 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = current_user.schedules.new(schedule_params)
+    authorize @schedule
 
     if @schedule.save
       redirect_to @schedule, notice: 'Successfully created'
