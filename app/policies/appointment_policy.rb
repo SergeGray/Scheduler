@@ -10,6 +10,10 @@ class AppointmentPolicy
     owns? || owns_schedule?
   end
 
+  def destroy?
+    owns? || owns_schedule?
+  end
+
   private
 
   def owns?

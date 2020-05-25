@@ -220,10 +220,12 @@ RSpec.describe AppointmentsController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
-    let!(:appointment) { create(:appointment) }
+    let!(:appointment) do
+      create(:appointment, time_slot: time_slot, user: appointment_owner)
+    end
 
-    context 'authenticated user' do
-      before { login(user) }
+    context 'schedule owner' do
+      before { login(schedule_owner) }
 
       it 'assigns the requested appointment to @appointment' do
         delete :destroy, params: { id: appointment, format: :js }
@@ -238,6 +240,39 @@ RSpec.describe AppointmentsController, type: :controller do
       it 'renders the destroy template' do
         delete :destroy, params: { id: appointment, format: :js }
         expect(response).to render_template :destroy
+      end
+    end
+
+    context 'appointment owner' do
+      before { login(appointment_owner) }
+
+      it 'assigns the requested appointment to @appointment' do
+        delete :destroy, params: { id: appointment, format: :js }
+        expect(assigns(:appointment)).to eq appointment
+      end
+
+      it 'deletes the appointment' do
+        expect { delete :destroy, params: { id: appointment, format: :js } }
+          .to change(Appointment, :count).by(-1)
+      end
+
+      it 'renders the destroy template' do
+        delete :destroy, params: { id: appointment, format: :js }
+        expect(response).to render_template :destroy
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'does not delete the appointment' do
+        expect { delete :destroy, params: { id: appointment, format: :js } }
+          .to_not change(Appointment, :count)
+      end
+
+      it 'redirects to root' do
+        delete :destroy, params: { id: appointment, format: :js }
+        expect(response).to redirect_to root_path
       end
     end
 

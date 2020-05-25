@@ -8,7 +8,7 @@
                    appointment: appointment,
                    button_action: 'Edit appointment' %></p>
   <% end %>
-  <% if user_signed_in? %>
+  <% if policy(appointment).destroy? %>
     <p><%= link_to 'Delete appointment',
                     appointment,
                     method: :delete,

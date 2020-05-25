@@ -14,6 +14,7 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
+    authorize @appointment
     @appointment.destroy
   end
 
