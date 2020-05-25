@@ -6,6 +6,14 @@ class AppointmentPolicy
     @appointment = appointment
   end
 
+  def show?
+    owns? || owns_schedule?
+  end
+
+  def create?
+    user
+  end
+
   def update?
     owns? || owns_schedule?
   end

@@ -2,10 +2,13 @@ class AppointmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_appointment, only: %i[show update destroy]
 
-  def show; end
+  def show
+    authorize @appointment
+  end
 
   def create
     @appointment = current_user.appointments.create(appointment_params)
+    authorize @appointment
   end
 
   def update

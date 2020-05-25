@@ -11,9 +11,9 @@ RSpec.describe AppointmentsController, type: :controller do
   end
 
   describe 'GET #show' do
-    context 'authenticated user' do
+    context 'appointment owner' do
       before do
-        login(user)
+        login(appointment_owner)
         get :show, params: { id: appointment }
       end
 
@@ -23,6 +23,30 @@ RSpec.describe AppointmentsController, type: :controller do
 
       it 'renders show view' do
         expect(response).to render_template :show
+      end
+    end
+
+    context 'schedule owner' do
+      before do
+        login(appointment_owner)
+        get :show, params: { id: appointment }
+      end
+
+      it 'assigns the requested appointment to @appointment' do
+        expect(assigns(:appointment)).to eq appointment
+      end
+
+      it 'renders show view' do
+        expect(response).to render_template :show
+      end
+    end
+
+    context 'authenticated user' do
+      before { login(user) }
+
+      it 'redirects to root' do
+        get :show, params: { id: appointment }
+        expect(response).to redirect_to root_path
       end
     end
 
