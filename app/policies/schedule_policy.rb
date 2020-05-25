@@ -6,6 +6,14 @@ class SchedulePolicy
     @schedule = schedule
   end
 
+  def show?
+    true
+  end
+
+  def create?
+    user
+  end
+
   def update?
     owns?
   end
